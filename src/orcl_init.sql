@@ -82,6 +82,8 @@ SELECT
     CEIL(DBMS_RANDOM.VALUE(1, 10)), -- Random customer ID between 1 and 10
     CEIL(DBMS_RANDOM.VALUE(1, 10))  -- Random rider ID between 1 and 10
 FROM dual
-CONNECT BY level <= 100;
+CONNECT BY level <= 100000;
+
+-- TRUNCATE TABLE orders;
 
 COMMIT;

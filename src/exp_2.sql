@@ -3,7 +3,7 @@ ALTER TABLE rider
 ADD salary NUMBER;
 
 UPDATE rider
-SET salary = ROUND(DBMS_RANDOM.VALUE(10000, 20000));
+SET salary = ROUND(DBMS_RANDOM.VALUE(7000, 12000));
 
 SELECT * FROM rider FETCH FIRST 5 ROWS ONLY;
 
@@ -42,7 +42,7 @@ ALTER TABLE orders
 RENAME COLUMN price TO order_price;
 
 UPDATE orders
-SET order_price = ROUND(DBMS_RANDOM.VALUE(100, 600));
+SET order_price = ROUND(DBMS_RANDOM.VALUE(500, 3000));
 
 DESC orders;
 
