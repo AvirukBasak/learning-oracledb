@@ -50,9 +50,10 @@ FETCH NEXT 20 ROW ONLY;                                 -- 7. Limit the number o
 SELECT SUM(order_price) FROM orders;
 SELECT SUM(salary) FROM rider;
 
--- profit made from orders minus the salary paid to riders
-SELECT tot_rev - tot_sal AS profit
+-- profit made from orders minus the salary paid to riders times the total no of months bw recent and oldest date
+SELECT tot_rev - tot_sal * months_bw AS profit
 FROM
+    (SELECT MONTHS_BETWEEN(MAX(order_time), MIN(order_time)) AS months_bw FROM orders),
     (SELECT SUM(order_price) AS tot_rev FROM orders),
     (SELECT SUM(salary) AS tot_sal FROM rider)
 ;
