@@ -33,7 +33,7 @@ WHERE order_time >= '01-01-2010'                        -- 2. Filter out rows th
 GROUP BY customer_id, c.email                           -- 3. Run group by on the temporary table
 HAVING SUM(order_price) >= 3000                         -- 4. Having is run on aggregated columns of each group to filter out groups that do not satisfy the condition
 ORDER BY total_order_price DESC                         -- 6. Order by is run on the temporary table after grouping and group filtering to sort the result set
-FETCH NEXT 10 ROW ONLY;                                 -- 7. Limit the number of rows in the result set
+FETCH NEXT 20 ROW ONLY;                                 -- 7. Limit the number of rows in the result set
 
 -- phrase to remember SQL execution order
 -- FJWGHSOL: FROM, JOIN, WHERE, GROUP BY, HAVING, SELECT, ORDER BY, LIMIT
