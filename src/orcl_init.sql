@@ -117,20 +117,22 @@ CREATE TABLE employee (
     mobile VARCHAR2(20),
     dob DATE,
     dept_id NUMBER,
+    salary NUMBER NOT NULL,
     FOREIGN KEY (dept_id) REFERENCES department(id)
 );
 
 -- fill employee table with 200 records
 TRUNCATE TABLE employee;
 
-INSERT INTO employee (id, name, email, mobile, dob, dept_id)
+INSERT INTO employee (id, name, email, mobile, dob, dept_id, salary)
 SELECT 
     rownum,
     'employee' || rownum,
     'employee' || rownum || '@example.com',
     DBMS_RANDOM.STRING('N', 10),
     TO_DATE('1991-01-01', 'YYYY-MM-DD') + DBMS_RANDOM.VALUE(0, 11688),
-    CEIL(DBMS_RANDOM.VALUE(1, 10))
+    CEIL(DBMS_RANDOM.VALUE(1, 10)),
+    CEIL(DBMS_RANDOM.VALUE(20000, 50000))
 FROM dual
 CONNECT BY level <= 200;
 
