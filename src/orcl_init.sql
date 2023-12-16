@@ -88,3 +88,53 @@ FROM dual
 CONNECT BY level <= 100000;
 
 COMMIT;
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+-- create a department Table
+CREATE TABLE department (
+    id NUMBER PRIMARY KEY,
+    name VARCHAR2(255) NOT NULL,
+    location VARCHAR2(255) NOT NULL
+);
+
+-- fill department table with 10 records
+TRUNCATE TABLE department;
+
+INSERT INTO department (id, name, location)
+SELECT 
+    rownum,
+    'Department ' || rownum,
+    'Location ' || rownum
+FROM dual
+CONNECT BY level <= 10;
+
+-- create an employee Table
+CREATE TABLE employee (
+    id NUMBER PRIMARY KEY,
+    name VARCHAR2(255) NOT NULL,
+    email VARCHAR2(255) NOT NULL,
+    mobile VARCHAR2(20),
+    dob DATE,
+    dept_id NUMBER,
+    FOREIGN KEY (dept_id) REFERENCES department(id)
+);
+
+-- fill employee table with 200 records
+TRUNCATE TABLE employee;
+
+INSERT INTO employee (id, name, email, mobile, dob, dept_id)
+SELECT 
+    rownum,
+    'employee' || rownum,
+    'employee' || rownum || '@example.com',
+    DBMS_RANDOM.STRING('N', 10),
+    TO_DATE('1991-01-01', 'YYYY-MM-DD') + DBMS_RANDOM.VALUE(0, 11688),
+    CEIL(DBMS_RANDOM.VALUE(1, 10))
+FROM dual
+CONNECT BY level <= 200;
+
+DROP TABLE employee;
+DROP TABLE department;
+
+COMMIT;

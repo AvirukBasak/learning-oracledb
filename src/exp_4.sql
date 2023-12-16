@@ -67,6 +67,16 @@ GROUP BY r.id, r.salary, r.id, r.email
 ORDER BY no_of_deliveries DESC
 FETCH NEXT 1 ROWS ONLY;
 
+-- 5.9. find email of rider with most deliveries
+WITH t AS (
+    SELECT r.id, r.mobile, r.email, r.salary, COUNT(*) AS total_deliveries
+    FROM rider r JOIN orders o ON r.id = o.rider_id
+    GROUP BY r.id, r.mobile, r.email, r.salary
+)
+SELECT *
+FROM t
+WHERE total_deliveries = (SELECT MAX(total_deliveries) FROM t);
+
 -- 6. total sales of month of August, year > 2000
 SELECT SUM(order_price)
 FROM orders
