@@ -29,7 +29,7 @@ WHERE salary < 10500;
 -- raise salary by 25%
 UPDATE rider
 SET salary = salary * 1.25
-WHERE salary >= 12000 AND salary <= 14000;
+WHERE salary >= 7000 AND salary <= 12000;
 
 -- insert new column to order table for order price
 ALTER TABLE orders

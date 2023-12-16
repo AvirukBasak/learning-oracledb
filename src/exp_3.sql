@@ -7,11 +7,10 @@ SELECT * FROM rider SAMPLE(20);
 SELECT * FROM orders SAMPLE(5);
 
 -- display details of all customers whose sum of orders exceed Rs 5000
-SELECT c.*, SUM(o.order_price) AS total_amount
-FROM customer c, orders o
-WHERE c.id = o.customer_id
+SELECT c.*, SUM(order_price) AS total_order_price
+FROM customer c JOIN orders o ON c.id = o.customer_id
 GROUP BY c.id, c.email, c.mobile, c.dob, c.location
-HAVING SUM(o.order_price) > 5000;
+HAVING SUM(order_price) > 0;
 
 -- display details of the all customers whose sum of orders price is either maximum or minimum
 SELECT c.*, SUM(o.order_price) AS total_amount
