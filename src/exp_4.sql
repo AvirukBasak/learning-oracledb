@@ -52,6 +52,14 @@ ORDER BY salary DESC
 OFFSET 1 ROW
 FETCH NEXT 1 ROWS ONLY;
 
+-- 4.5. alternative
+SELECT *
+FROM rider
+WHERE salary = (
+    SELECT MAX(salary) FROM rider WHERE salary < (  -- max of all the salaries i.e. less than the original max salary
+        SELECT MAX(salary) FROM rider               -- the max salary
+));
+
 -- 5. salary of rider who delivered max no of times
 SELECT r.id, r.email, r.salary, COUNT(*) AS no_of_deliveries
 FROM rider r JOIN orders o ON r.id = o.rider_id
