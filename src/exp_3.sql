@@ -9,18 +9,21 @@ SELECT * FROM orders SAMPLE(5);
 -- display details of all customers whose sum of orders exceed Rs 5000
 SELECT c.*, SUM(order_price) AS total_amount, COUNT(*) AS total_orders
 FROM customer c JOIN orders o ON c.id = o.customer_id
-GROUP BY c.id, c.email, c.mobile, c.dob, c.location;
+GROUP BY c.id, c.email, c.mobile, c.dob, c.location
+HAVING SUM(order_price) > 5000;
 
 -- display details of the all customers whose sum of orders price is either maximum or minimum
-SELECT c.*, SUM(o.order_price) AS total_amount
-FROM customer c, orders o
-WHERE c.id = o.customer_id
+SELECT c.*, COUNT(*) AS total_orders, SUM(order_price) AS total_order_price
+FROM customer c JOIN orders o ON c.id = o.customer_id
 GROUP BY c.id, c.email, c.mobile, c.dob, c.location
-HAVING SUM(o.order_price) = (SELECT MAX(total_amount) FROM (SELECT SUM(order_price) AS total_amount FROM orders GROUP BY customer_id))
-OR SUM(o.order_price) = (SELECT MIN(total_amount) FROM (SELECT SUM(order_price) AS total_amount FROM orders GROUP BY customer_id));
+HAVING
+    SUM(order_price) = (SELECT MAX(total_order_price) FROM (SELECT SUM(order_price) AS total_order_price FROM orders GROUP BY customer_id))
+    OR
+    SUM(order_price) = (SELECT MIN(total_order_price) FROM (SELECT SUM(order_price) AS total_order_price FROM orders GROUP BY customer_id))
+ORDER BY total_order_price DESC;
 
--- list customers who have spent at least Rs 1000 on orders since 1st Jan 2010
 
+-- list customers who have spent at least Rs 3000 on orders since 1st Jan 2010
 SELECT                                                  -- 5. Project from the temporary table after grouping and group filtering;
     customer_id,                                        --    here aggregate functions run on each group rather than the whole teporary table.
     c.email,
