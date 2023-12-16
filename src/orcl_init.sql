@@ -76,11 +76,12 @@ SELECT 1 FROM Dual;
 -- Adjust the table and column names accordingly if they are different in your database.
 
 -- Insert 100 orders with random customer and rider IDs
-INSERT INTO orders (id, customer_id, rider_id)
+INSERT INTO orders (id, customer_id, rider_id, order_time)
 SELECT 
     rownum,
-    CEIL(DBMS_RANDOM.VALUE(1, 10)), -- Random customer ID between 1 and 10
-    CEIL(DBMS_RANDOM.VALUE(1, 10))  -- Random rider ID between 1 and 10
+    CEIL(DBMS_RANDOM.VALUE(1, 10)),                                   -- Random customer ID between 1 and 10
+    CEIL(DBMS_RANDOM.VALUE(1, 10)),                                   -- Random rider ID between 1 and 10
+    TO_DATE('1991-01-01', 'YYYY-MM-DD') + DBMS_RANDOM.VALUE(0, 11688) -- random date between 1st Jan 1991 and 31st Dec 2023
 FROM dual
 CONNECT BY level <= 100000;
 
