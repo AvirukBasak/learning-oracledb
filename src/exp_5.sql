@@ -33,7 +33,10 @@ WITH t AS(
     GROUP BY e.dept_id, d.name
 )
 SELECT *
-FROM employee e JOIN t ON e.dept_id = t.dept_id;
+FROM employee e JOIN t ON
+    e.dept_id = t.dept_id
+    AND
+    e.salary = t.max_salary;
 
 -- get department strength
 SELECT d.name, COUNT(*) AS strength
@@ -51,5 +54,32 @@ WITH t AS (
     GROUP BY dept_id, d.name
 )
 SELECT *
-FROM employee e JOIN t ON e.dept_id = t.dept_id
-WHERE salary > avg_sal;
+FROM employee e JOIN t ON
+    e.dept_id = t.dept_id
+    AND
+    salary > avg_sal;
+
+-- who earns over the max salary of their dept?
+    SELECT
+      d.id as dept_id
+    , d.name
+    , d.location
+    , MAX(e.salary) AS max_salary
+    FROM department d INNER JOIN employee e ON e.dept_id = d.id
+    GROUP BY d.name, d.location, d.id;
+
+SELECT 
+    m.*, e.*
+FROM (
+    SELECT
+      d.id as dept_id
+    , d.name
+    , d.location
+    , MAX(e.salary) AS max_salary
+    FROM department d INNER JOIN employee e ON e.dept_id = d.id
+    GROUP BY d.name, d.location, d.id
+) M
+INNER JOIN employee e on
+    e.dept_id = m.dept_id
+    AND
+    e.salary = m.max_salary;
