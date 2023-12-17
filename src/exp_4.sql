@@ -88,7 +88,10 @@ WHERE
 -- 7. total purchases made in July, year > 2010
 SELECT COUNT(*)
 FROM orders
-WHERE order_time > '01-JAN-2010';
+WHERE
+    order_time > '01-JAN-2010'
+    AND
+    order_time LIKE '%-JUL-%';
 
 -- 8. to show number of orders delivered after the last order made by customer id 101
 SELECT COUNT(*)
